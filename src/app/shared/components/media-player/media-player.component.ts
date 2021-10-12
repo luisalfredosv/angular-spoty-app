@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 export class MediaPlayerComponent implements OnInit {
 
   mockCover: TrackModel = {
-    cover: 'https://i.scdn/image/ab67616d000b27345ca41b0d2352242c7c9d4bc',
+    cover: 'https://jenesaispop.com/wp-content/uploads/2009/09/guetta_onelove.jpg',
     album: 'Gioli & Assi',
     name: 'Bebe (Oficial)',
     url: '',
