@@ -6,27 +6,23 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-track-page',
   templateUrl: './track-page.component.html',
-  styleUrls: ['./track-page.component.css']
+  styleUrls: ['./track-page.component.css'],
 })
-export class TrackPageComponent implements OnInit, OnDestroy {
+export class TrackPageComponent implements OnInit {
 
-  tracksTrending : TrackModel[] = [];
-  tracksRandom : TrackModel[] = [];
+  tracksTrending: TrackModel[] = [];
+  tracksRandom: TrackModel[] = [];
 
-  listObserver$: Subscription[] = []
-
-  constructor(private trackServ: TrackService) { }
+  constructor(private trackServ: TrackService) {}
 
   ngOnInit(): void {
-    const observer1$ = this.trackServ.dataTracksTrending$.subscribe(response => this.tracksTrending = response)
+    this.trackServ
+      .getAllTracks$()
+      .subscribe((response: TrackModel[]) => (this.tracksTrending = response));
 
-    const observer2$ = this.trackServ.dataTracksRandom$.subscribe(response => this.tracksRandom = response)
+    this.trackServ
+      .getAllTracks$()
+      .subscribe((response: TrackModel[]) => (this.tracksRandom = response));
 
-    this.listObserver$ = [observer1$, observer2$]
   }
-
-  ngOnDestroy(): void {
-    this.listObserver$.forEach( u => u.unsubscribe())
-  }
-
 }

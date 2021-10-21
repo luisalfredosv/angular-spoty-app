@@ -1,20 +1,29 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TrackModel } from '@core/models/tracks.model';
-import { Observable, of } from 'rxjs';
-import * as dataRaw from "../../../data/tracks.json";
+import { environment } from '@environments/environment';
+import { Observable } from 'rxjs';
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrackService {
 
-  dataTracksTrending$ :Observable<TrackModel[]> = of([])
-  dataTracksRandom$:Observable<TrackModel[]> = of([])
+  private readonly URL = environment.api;
 
-  constructor() {
-    const { data }: any = (dataRaw as any).default;
-    this.dataTracksTrending$ = of(data)
-    this.dataTracksRandom$ = of(data)
+  constructor(private httpClient: HttpClient) {
+  }
+
+  getAllTracks$():Observable<any>{
+    return this.httpClient.get(`${this.URL}/tracks`).pipe( map((data :any) => {
+      return data
+    }))
+  }
+
+  getAllRandom$():Observable<any>{
+    return this.httpClient.get(`${this.URL}/tracks`).pipe( map(({ data } :any) => {
+      return data.reverse()
+    }))
   }
 
 }
